@@ -16,7 +16,30 @@ public class User {
 		dd=r.nextInt(T-duration-rd+1)+rd+duration;
 		int rdm=r.nextInt(3);
 		double pricePerH=(rdm>0)?Data.pricePerHourA[lr-1]*(1-(r.nextDouble()/4)) :(rdm>1)?Data.pricePerHourG[lr-1]*(1-(r.nextDouble()/4)):Data.pricePerHour[lr-1]*(1+(r.nextDouble()/4));
-		opt=(int)(duration*pricePerH*100)/100.0;
+		opt=(int)(duration*pricePerH*1000)/1000.0;
+	}
+	
+	public User(int T, int duratio, int level, boolean OVH, MersenneTwisterFast r) {
+		
+		lr=level;
+		this.duration=Math.min(duratio, T);
+		if (T==duration) {
+			rd=1;
+			dd=T;
+		}else {
+			rd=r.nextInt(T-duration)+1;
+			dd=r.nextInt(T-duration-rd+1)+rd+duration;
+		}
+		
+		int rdm=r.nextInt(2);
+		double pricePerH;
+		if (OVH) {
+			pricePerH=Data.pricePerHour[lr-1]*(1+(r.nextDouble()/4));
+		}else {
+			pricePerH=(rdm>0)?Data.pricePerHourA[lr-1]*(1-(r.nextDouble()/4)):Data.pricePerHourG[lr-1]*(1-(r.nextDouble()/4));
+		}
+		
+		opt=(int)(duration*pricePerH*1000)/1000.0;
 	}
 	
 	public User(int lr, double opt, int rd, int dd, int duration) {

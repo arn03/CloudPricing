@@ -1,6 +1,6 @@
 
 public class Solution {
-	private Problem problem;
+	private Instance instance;
 	private double[][] priceU; //level periods
 	private double[][] priceS; //level periods
 	private double value; // value of this solution
