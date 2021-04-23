@@ -10,15 +10,35 @@ public class User {
 	
 	public User(int T, MersenneTwisterFast r) {
 		
-		lr=r.nextInt(Data.L)+1;
-		duration=r.nextInt(T/4)+1;
-		rd=r.nextInt(T-duration)+1;
-		dd=r.nextInt(T-duration-rd+1)+rd+duration;
+		lr=drawLevelForUser(r);
+		duration=drawDurationUser(r, T);
+		rd=r.nextInt(T-duration+1)+1;
+		dd=r.nextInt(T-duration-rd+2)+rd+duration-1;
 		int rdm=r.nextInt(3);
 		double pricePerH=(rdm>0)?Data.pricePerHourA[lr-1]*(1-(r.nextDouble()/4)) :(rdm>1)?Data.pricePerHourG[lr-1]*(1-(r.nextDouble()/4)):Data.pricePerHour[lr-1]*(1+(r.nextDouble()/4));
 		opt=(int)(duration*pricePerH*1000)/1000.0;
 	}
 	
+	private int drawLevelForUser(MersenneTwisterFast m) {
+		int rand=m.nextInt(Data.nbUser);
+		int i=1;
+		while(rand>Data.userByLevel[i-1]) {
+			rand-=Data.userByLevel[i-1];
+			i++;
+		}
+		return i;
+	}
+	
+	private int drawDurationUser(MersenneTwisterFast r, int T) {
+		int rand=r.nextInt(Data.nbUser);
+		int i=1;
+		while(rand>Data.durationUsers[i-1] && i<T) {
+			rand-=Data.durationUsers[i-1];
+			i++;
+		}
+		return i;
+	}
+
 	public User(int T, int duratio, int level, boolean OVH, MersenneTwisterFast r) {
 		
 		lr=level;
@@ -27,8 +47,8 @@ public class User {
 			rd=1;
 			dd=T;
 		}else {
-			rd=r.nextInt(T-duration)+1;
-			dd=r.nextInt(T-duration-rd+1)+rd+duration;
+			rd=r.nextInt(T-duration+1)+1;
+			dd=r.nextInt(T-duration-rd+2)+rd+duration-1;
 		}
 		
 		int rdm=r.nextInt(2);

@@ -7,15 +7,24 @@ public class Subscriber {
 	
 	
 	public Subscriber(int T,MersenneTwisterFast m) {
-		lr=m.nextInt(Data.L)+1;
+		lr=drawLevelForSub(m);
 		v=(int)((m.nextDouble()*2)*Data.SFT[lr-1]/Data.H/Math.pow(2, lr)*10000)/10000.0;
 		aprioriDemand=new double[T];
 		for (int i = 0; i < aprioriDemand.length; i++) {
 			aprioriDemand[i]=(int)(Math.pow(2, lr)*(Math.min((Data.CPU24Hour[i%24])*m.nextDouble()*2, 1))*100)/100.0;
 		}
 	}
+	private int drawLevelForSub(MersenneTwisterFast m) {
+		int rand=m.nextInt(Data.nbSub);
+		int i=1;
+		while(rand>Data.subByLevel[i-1]) {
+			rand-=Data.subByLevel[i-1];
+			i++;
+		}
+		return i;
+	}
 	public Subscriber(int T,int L,int periodStart, int periodEnd,MersenneTwisterFast m) {
-		lr=L;
+		lr=drawLevelForSub(m);
 		v=(int)((m.nextDouble()*2)*Data.SFT[lr-1]/Data.H/Math.pow(2, lr)*10000)/10000.0;
 		aprioriDemand=new double[T];
 		//System.out.println(periodStart+" "+periodEnd);
@@ -23,6 +32,7 @@ public class Subscriber {
 			aprioriDemand[i]=(int)(Math.pow(2, lr)*(Math.min((Data.CPU24Hour[i%24])*m.nextDouble()*2, 1))*100)/100.0;
 		}
 	}
+	
 	
 	public Subscriber(double[] aprioriDemand, double v, int lr) {
 		super();
