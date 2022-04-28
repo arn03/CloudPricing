@@ -11,7 +11,7 @@ public class MainCrea {
 		int Ts[]= {8,12}; //{24,168,730};
 		int Ss[]= {25,50,100/*,200*/};
 		int Us[]= {25,50,100/*,200*/};
-		double Rs[]= {0/*, 20, 100*/};// percentage of resources available compare to subscribers usage
+		double Rs[]= {0, 20, 100};// percentage of resources available compare to subscribers usage
 		MersenneTwisterFast m= new MersenneTwisterFast();
 		m.setSeed(123);
 		int mult=1000000;
